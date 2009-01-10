@@ -1,0 +1,45 @@
+FrontMyth
+---------
+
+To build the plugin:
+--------------------
+python setup.py py2app
+
+The plugin with then be in the dist/ directory.
+
+To create the package:
+----------------------
+Open the FrontMyth.pmdoc file with PackageManager. You may have to adjust the
+path for the source. You can do this by:
+
+Within PackageMaker, press the arrow next to the FrontMyth entry in the 
+Contents area. Select the FrontMyth that appears there. Edit the Install entry
+as needed. Leave the destination alone.
+
+Then just click the build button at the top.
+
+If your users complain that it doesn't work, you may have built while in the
+'alias' mode of development. Delete the dist directory, and run the command
+for building the plugin. This is because it when its in alias mode, for some 
+reason it hard codes some paths in the launcher.
+
+Development:
+------------
+Here's what I did to ease development. 
+First, I create the app in 'alias' mode, with "python setup.py py2app -A"
+Then I made a symlink to that application, in the FrontRow plugins area:
+
+ln -s <sourcedir>/dist/FrontMyth.frappliance /System/Library/CoreServices/Front\ Row.app/Contents/PlugIns/
+
+Then you'll be able to edit the .py file, and the changes are visible to 
+Front Row. But you will have to restart Front Row on every change, since 
+it will not reload the plugin with it. So I was doing: 
+
+killall Front\ Row
+
+Whenever I made a change.
+
+Good luck.
+
+John Sutherland
+garionphx@gmail.com
