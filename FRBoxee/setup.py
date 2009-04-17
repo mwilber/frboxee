@@ -2,11 +2,11 @@ from distutils.core import setup
 import py2app
 
 
-plist = dict(NSPrincipalClass='RUIPythonAppliance',
+plist = dict(NSPrincipalClass='RUIfrboxee',
              CFBundleDevelopmentRegion='English',
-             CFBundleExecutable='Boxee',
-             CFBundleName='Boxee',
-             CFBundleIdentifier="com.apple.frontrow.appliance.Boxee",
+             CFBundleExecutable='RunBoxee',
+             CFBundleName='RunBoxee',
+             CFBundleIdentifier="com.apple.frontrow.appliance.frboxee",
              CFBundleInfoDictionaryVersion='6.0',
              CFBundlePackageType='BNDL',
              CFBundleSignature='????',
@@ -19,7 +19,8 @@ plist = dict(NSPrincipalClass='RUIPythonAppliance',
 
 
 setup(
-    plugin = ['FrontPython.py'],
+    plugin = ['frboxee.py'],
+    packages = ['PyFR'],
     data_files=['English.lproj'],
     options=dict(py2app=dict(extension='.frappliance', plist=plist))
  )

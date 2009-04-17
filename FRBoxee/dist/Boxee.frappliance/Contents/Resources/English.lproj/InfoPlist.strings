@@ -1,4 +1,0 @@
-/* Localized versions of Info.plist keys */
-
-CFBundleName = "Boxee";
-NSHumanReadableCopyright = "© John Sutherland, 2008. Modified by mwilber 2008";
