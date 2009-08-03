@@ -1,9 +1,6 @@
 #
-#  main.py
-#  FrontPython
-#
-#  Created by garion on 12/15/07.
-#  Copyright __MyCompanyName__ 2007. All rights reserved.
+#  frboxee.py
+#  FRBoxee
 #
 import time
 import os 
@@ -23,16 +20,14 @@ objc.loadBundle("BackRow", globals(), bundle_path=objc.pathForFramework("/System
 
 class BoxeeLaunch(PyFR.WaitController.WaitController):
 	def init(self):
-		#self.initWithApp_( self, 'Launching Boxee', 'Applications/Boxee.app' )
 		PyFR.WaitController.WaitController.initWithText_( self, 'Launching Boxee' )
 		return self
 
 	def PyFR_start(self):
+		# Added applescript to launch boxee because launching it directly does not change focus
 		self.launchApp( 'Applications/LaunchBoxee.app', None )
-		#self.launchApp( 'System/Library/CoreServices/Front\ Row.app/Contents/PlugIns/RunBoxee.frappliance/Contents/MacOS/LaunchBoxee.app', None )
 		#self.launchApp( '/Applications/Boxee.app/Contents/MacOS/Boxee', None )
         # FR automatically quits after 20 minutes.  This should disable that behavior...
-        #   not tested here, you might need to do this a few seconds into your AppShouldExit callback
 		foo=objc.lookUpClass("FRAutoQuitManager")
 		foo.sharedManager().setAutoQuitEnabled_(False)
 
@@ -52,27 +47,21 @@ class BoxeeLaunch(PyFR.WaitController.WaitController):
 		app.activate()
 		#os.execv(self.launchedApp, [''])
 
-		# possibly Load App
+		# __IsRunning does not recognise Boxee for some reason. Just assume it's running.
 		#while not self.__IsRunning():
-
-			# I probably shouldn't use a sleep here, as thats not good GUI 
-			# practice. But it works. Not like its going to be around long in 
-			# here.
 		time.sleep(0.25)
-
-		# Well, we already hid, so we may move this. 
+		# Prep FrontRow to hide
 		self.AboutToHideFR()
 
-		# Start hiding the display
+		# Hide FrontRow
 		frController = BRAppManager.sharedApplication().delegate()
-		# We use continue, since it seems to skip the -slow- fade out.
-		# It also doesn't seem to kill the controller stack!
 		self.fireMethod( frController, "_continueDestroyScene:", None )
 
 		# Tell the app to load the file we want to open, if necessary.
 		if fileToLoad is not None:
 			app.open_( fileToLoad )
 
+		# Since boxee does not appear in the app list FrontRow can't monitor/
 		# Start a timer
 		#self.timer = Foundation.NSTimer.scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_( 0.25, self, "launchedAppTick:", None, True )
 
